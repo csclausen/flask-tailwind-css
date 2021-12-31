@@ -1,0 +1,31 @@
+{% from "macros/navbar.html" import nav_link with context %}
+<!doctype html>
+<html>
+<head>
+    <link href="/static/output.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %} - Flask App</title>
+</head>
+<body>
+    <nav class="container flex justify-end py-8 mx-auto bg-white">
+        <ul class="flex justify-end">
+            {% if g.user %}
+                <li class="mr-6"><span>{{ g.user['username'] }}</span></li>
+                {{ nav_link('auth.logout', 'Logout') }}
+            {% else %}
+                {{ nav_link('auth.register', 'Register') }}
+                {{ nav_link('auth.login', 'Login') }}
+            {% endif %} 
+          </ul>
+      </nav>
+    <section class="content">
+        <header>
+            {% block header %}{% endblock %}
+        </header>
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </section>
+</body>
+</html>
